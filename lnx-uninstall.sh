@@ -1,9 +1,9 @@
 #!/bin/bash
 set -e
 
-echo VMware Unlocker 2.0.9
+echo VMware Unlocker 2.1.1
 echo ===============================
-echo Copyright: Dave Parsons 2011-16
+echo Copyright: Dave Parsons 2011-17
 
 # Ensure we only use unmodified commands
 export PATH=/bin:/sbin:/usr/bin:/usr/sbin
@@ -27,6 +27,6 @@ fi
 echo Removing backup files...
 rm -rf ./backup
 rm -rf ./tools
-rm -f /usr/lib/vmware/isoimages/darwin.*
+rm -f /usr/lib/vmware/isoimages/darwin*.*
 
 echo Finished!

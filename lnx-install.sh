@@ -1,9 +1,9 @@
 #!/bin/bash
 set -e
 
-echo VMware Unlocker 2.0.9
+echo VMware Unlocker 2.1.1
 echo ===============================
-echo Copyright: Dave Parsons 2011-16
+echo Copyright: Dave Parsons 2011-17
 
 # Ensure we only use unmodified commands
 export PATH=/bin:/sbin:/usr/bin:/usr/sbin
@@ -31,7 +31,7 @@ python2 ./unlocker.py
 
 echo Getting VMware Tools...
 python2 gettools.py
-cp ./tools/darwin.* /usr/lib/vmware/isoimages/
+cp ./tools/darwin*.* /usr/lib/vmware/isoimages/
 
 echo Finished!
 

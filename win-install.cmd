@@ -1,8 +1,8 @@
 @echo off
 setlocal ENABLEEXTENSIONS
-echo VMware Unlocker 2.0.9
+echo VMware Unlocker 2.1.1
 echo ========================
-echo (c) Dave Parsons 2011-16
+echo (c) Dave Parsons 2011-17
 
 net session >NUL 2>&1
 if %errorlevel% neq 0 (
@@ -38,7 +38,7 @@ unlocker.exe
 
 echo Getting VMware Tools...
 gettools.exe
-xcopy /F /Y .\tools\darwin.* "%InstallPath%"
+xcopy /F /Y .\tools\darwin*.* "%InstallPath%"
 
 echo Starting VMware services...
 net start VMUSBArbService > NUL 2>&1

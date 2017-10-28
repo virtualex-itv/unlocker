@@ -42,6 +42,7 @@ Offset  Length  Struct Type Description
 """
 
 from __future__ import print_function
+import codecs
 import os
 import sys
 import struct
@@ -57,13 +58,6 @@ if sys.platform == 'win32' \
     from _winreg import *
 
 
-def rot13(s):
-    chars = 'AaBbCcDdEeFfGgHhIiJjKkLlMmNnOoPpQqRrSsTtUuVvWwXxYyZz'
-    trans = chars[26:] + chars[:26]
-    rot_char = lambda c: trans[chars.find(c)] if chars.find(c) > -1 else c
-    return ''.join(rot_char(c) for c in s)
-
-
 def bytetohex(data):
     if sys.version_info > (3, 0):
         # Python 3 code in this block
@@ -73,8 +67,8 @@ def bytetohex(data):
         return "".join("{:02X} ".format(ord(c)) for c in data)
 
 
-def joinpath(folder, file):
-    return os.path.join(folder, file)
+def joinpath(folder, filename):
+    return os.path.join(folder, filename)
 
 
 def printkey(i, offset, smc_key, smc_data):
@@ -86,6 +80,18 @@ def printkey(i, offset, smc_key, smc_data):
           + ' ' + '{0:#0{1}x}'.format(smc_key[3], 4)
           + ' ' + hex(smc_key[4])
           + ' ' + bytetohex(smc_data))
+
+
+def set_bit(value, bit):
+    return value | (1 << bit)
+
+
+def clear_bit(value, bit):
+    return value & ~(1 << bit)
+
+
+def test_bit(value, bit):
+    return value & bit
 
 
 E_CLASS64 = 2
@@ -115,7 +121,7 @@ def patchelf(f, oldoffset, newoffset):
     for i in range(0, e_shnum):
         f.seek(e_shoff + i * e_shentsize)
         e_sh = struct.unpack('=LLQQQQLLQQ', f.read(e_shentsize))
-        e_sh_name = e_sh[0]
+        # e_sh_name = e_sh[0]
         e_sh_type = e_sh[1]
         e_sh_offset = e_sh[4]
         e_sh_size = e_sh[5]
@@ -139,7 +145,7 @@ def patchelf(f, oldoffset, newoffset):
 def patchkeys(f, key):
     # Setup struct pack string
     key_pack = '=4sB4sB6xQ'
-    smc_old_memptr = 0
+    # smc_old_memptr = 0
     smc_new_memptr = 0
 
     # Do Until OSK1 read
@@ -165,14 +171,14 @@ def patchkeys(f, key):
             # Write new data routine pointer from +LKS
             print('OSK0 Key Before:')
             printkey(i, offset, smc_key, smc_data)
-            smc_old_memptr = smc_key[4]
+            # smc_old_memptr = smc_key[4]
             f.seek(offset)
             f.write(struct.pack(key_pack, smc_key[0], smc_key[1], smc_key[2], smc_key[3], smc_new_memptr))
             f.flush()
 
             # Write new data for key
             f.seek(offset + 24)
-            smc_new_data = rot13('bheuneqjbexolgurfrjbeqfthneqrqcy')
+            smc_new_data = codecs.encode('bheuneqjbexolgurfrjbeqfthneqrqcy', 'rot_13')
             f.write(smc_new_data.encode('UTF-8'))
             f.flush()
 
@@ -194,7 +200,7 @@ def patchkeys(f, key):
 
             # Write new data for key
             f.seek(offset + 24)
-            smc_new_data = rot13('rnfrqbagfgrny(p)NccyrPbzchgreVap')
+            smc_new_data = codecs.encode('rnfrqbagfgrny(p)NccyrPbzchgreVap', 'rot_13')
             f.write(smc_new_data.encode('UTF-8'))
             f.flush()
 
@@ -295,34 +301,33 @@ def patchbase(name):
     f = open(name, 'r+b')
 
     # Entry to search for in GOS table
+    # Should work for 12 & 14 of Workstation...
     darwin = (
         '\x10\x00\x00\x00\x10\x00\x00\x00'
         '\x02\x00\x00\x00\x00\x00\x00\x00'
         '\x00\x00\x00\x00\x00\x00\x00\x00'
         '\x00\x00\x00\x00\x00\x00\x00\x00'
-        '\xBE'
     )
 
     # Read file into string variable
     base = f.read()
 
-    # Loop thorugh each entry and set top bit
-    # 0xBE --> 0xBF
+    # Loop through each entry and set top bit
+    # 0xBE --> 0xBF (WKS 12)
+    # 0x3E --> 0x3F (WKS 14)
     offset = 0
     while offset < len(base):
         offset = base.find(darwin, offset)
         if offset == -1:
             break
         f.seek(offset + 32)
-        flag = f.read(1)
-        if flag == '\xBE':
-            f.seek(offset + 32)
-            f.write('\xBF')
-            print('GOS Patched flag @: ' + hex(offset))
-        else:
-            print('GOS Unknown flag @: ' + hex(offset) + '/' + hex(int(flag)))
-
-        offset += 33
+        flag = ord(f.read(1))
+        flag = set_bit(flag, 0)
+        flag = chr(flag)
+        f.seek(offset + 32)
+        f.write(flag)
+        print('GOS Patched flag @: ' + hex(offset))
+        offset += 40
 
     # Tidy up
     f.flush()
@@ -371,8 +376,7 @@ def main():
         vmx = joinpath(vmx_path, 'vmware-vmx')
         vmx_debug = joinpath(vmx_path, 'vmware-vmx-debug')
         vmx_stats = joinpath(vmx_path, 'vmware-vmx-stats')
-        vmx_version = subprocess.check_output(["vmplayer", "-v"])
-        if vmx_version.startswith('VMware Player 12'):
+        if os.path.isfile('/usr/lib/vmware/lib/libvmwarebase.so/libvmwarebase.so'):
             vmx_so = True
             vmwarebase = '/usr/lib/vmware/lib/libvmwarebase.so/libvmwarebase.so'
         else:

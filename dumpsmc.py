@@ -40,6 +40,7 @@ Offset  Length  Struct Type Description
 0x10/16 0x08/08 Q      ptr  Internal VMware routine
 0x18/24 0x30/48 48B    byte Data
 """
+"""
 
 from __future__ import print_function
 import struct
@@ -138,7 +139,7 @@ def dumpsmc(name):
             print('appleSMCTableV0 Table        : ' + hex(smc_key1))
             dumpkeys(f, smc_key1)
 
-        print('xxxx')
+        print()
 
         # Print vSMC1 tables and keys
         print('appleSMCTableV1 (smc.version = "1")')

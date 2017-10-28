@@ -1,7 +1,7 @@
 #!/bin/bash
 set -e
 
-echo VMware Get OS X Tools 2.0.9
+echo VMware Get OS X Tools 2.1.1
 echo ===============================
 echo Copyright: Dave Parsons 2015-16
 
@@ -16,7 +16,7 @@ fi
 
 echo Getting VMware Tools...
 python2 gettools.py
-cp ./tools/darwin.* /usr/lib/vmware/isoimages/
+cp ./tools/darwin*.* /usr/lib/vmware/isoimages/
 
 echo Finished!
 
