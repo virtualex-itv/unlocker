@@ -6,4 +6,4 @@ tests/
 build/
 dist/
 *.spec
-docs/
+docs
