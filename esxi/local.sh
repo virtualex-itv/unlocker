@@ -2,9 +2,10 @@
 set -e
 set -x
 
-echo VMware ESXi 6.x Unlocker 2.1.0
+echo VMware ESXi 6.x Unlocker 2.1.2
 echo ===============================
 echo Copyright: Dave Parsons 2011-17
+echo Contributor: virtualex  2018
 
 # Ensure we only use unmodified commands
 export PATH=/bin:/sbin:/usr/bin:/usr/sbin
@@ -485,10 +486,10 @@ def main():
 
     # Now using sed in the local.sh script
     if osname == 'vmkernel':
-        # Patch ESXi 6.0 and 6.5 32 bit .so
+        # Patch ESXi 6.0 and 6.5/6.7 32 bit .so
         patchvmkctl(libvmkctl32)
 
-        # Patch ESXi 6.5 64 bit .so
+        # Patch ESXi 6.5/6.7 64 bit .so
         if os.path.isfile(libvmkctl64):
             patchvmkctl(libvmkctl64)
 
