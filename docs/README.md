@@ -2,7 +2,7 @@
 
 # *unlocker*
 
-A utility which enables the installation of macOS Virtual Machines on non-Apple certified ***VMware vSphere (ESXi)***, ***VMware Workstation/Player*** *(Windows/Linux)*, and ***VMware Fusion*** *(OSX/macOS)* hypervisors.
+A utility which enables the installation of macOS Virtual Machines on non-Apple certified ***VMware vSphere*** *(ESXi)*, ***VMware Workstation/Player*** *(Windows/Linux)*, and ***VMware Fusion*** *(OSX/macOS)* hypervisors.
 
 <p align="left"><img src="http://ithinkvirtual.com/wp-content/uploads/2018/05/2018-05-24_19-02-04.png"></p>
 
