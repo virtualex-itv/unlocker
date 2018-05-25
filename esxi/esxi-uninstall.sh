@@ -2,9 +2,10 @@
 set -e
 #set -x
 
-echo VMware Unlocker 2.1.0
+echo VMware Unlocker 2.1.2
 echo ===============================
 echo Copyright: Dave Parsons 2011-17
+echo Contributor: virtualex  2018
 
 # Ensure we only use unmodified commands
 export PATH=/bin:/sbin:/usr/bin:/usr/sbin
