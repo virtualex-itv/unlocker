@@ -57,6 +57,15 @@ def main():
     unlocker.patchvmkctl('./tests/esxi/esxi650/lib64/libvmkctl.so')
     shutil.copyfile('./samples/esxi/esxi650/config.xml', './tests/esxi/esxi650/config.xml')
 
+    print('ESXi 6.7')
+    shutil.copyfile('./samples/esxi/esxi670/vmx', './tests/esxi/esxi670/vmx')
+    unlocker.patchsmc('./tests/esxi/esxi670/vmx', True)
+    shutil.copyfile('./samples/esxi/esxi670/lib/libvmkctl.so', './tests/esxi/esxi670/lib/libvmkctl.so')
+    unlocker.patchvmkctl('./tests/esxi/esxi670/lib/libvmkctl.so')
+    shutil.copyfile('./samples/esxi/esxi670/lib64/libvmkctl.so', './tests/esxi/esxi670/lib64/libvmkctl.so')
+    unlocker.patchvmkctl('./tests/esxi/esxi670/lib64/libvmkctl.so')
+    shutil.copyfile('./samples/esxi/esxi670/config.xml', './tests/esxi/esxi670/config.xml')
+
 
 if __name__ == '__main__':
     main()
