@@ -33,8 +33,9 @@ been shutdown.
 
 The code is written in Python as it makes the Unlocker easier to run and maintain on ESXi.
 
+----------
 #### Prerequisites
-----------------
+----------
 
 The code requires Python 2.7 to work. Most Linux distros and macOS ship with a compatible
 Python interpreter and should work without requiring any additional software.
@@ -42,67 +43,70 @@ Python interpreter and should work without requiring any additional software.
 Windows Unlocker has a packaged version of the Python script using PyInstaller,
 and so does not require Python to be installed.
 
+----------
 #### Limitations
---------------
+----------
 
 If you are using VMware Player or Workstation on Windows you may get a core dump.
 
 Latest Linux products are OK and do not show this problem.
 
-+-----------------------------------------------------------------------------+
-| IMPORTANT:                                                                  |
-| ==========                                                                  |
-|                                                                             |
-| If you create a new VM using version 11, 12 or 13 hardware VMware may stop  |
-| and create a core dump. There are two options to work around this issue:    |
-|                                                                             |
-| 1. Change the VM to be HW 10 - this does not affect performance.            |
-| 2. Edit the VMX file and add:                                               |
-|    smc.version = "0"                                                        |
-|                                                                             |
-+-----------------------------------------------------------------------------+
 
+**IMPORTANT:**
+
+If you create a new VM using version 11, 12 or 13 hardware VMware may stop
+and create a core dump. There are two options to work around this issue:
+
+1. Change the VM to be HW 10 - this does not affect performance
+2. Edit the VMX file and add:
+`smc.version = "0"``
+
+----------
 #### Windows
 ----------
 On Windows you will need to either run cmd.exe as Administrator or using
 Explorer right click on the command file and select "Run as administrator".
 
-win-install.cmd   - patches VMware
-win-uninstall.cmd - restores VMware
-win-update-tools.cmd - retrieves latest macOS guest tools
+1. win-install.cmd   - patches VMware
+2. win-uninstall.cmd - restores VMware
+3. win-update-tools.cmd - retrieves latest macOS guest tools
 
+----------
 #### Linux
 ---------
 On Linux you will need to be either root or use sudo to run the scripts.
 
 You may need to ensure the Linux scripts have execute permissions
-by running chmod +x against the 2 files.
+by running `chmod +x` against the 3 files.
 
-lnx-install.sh   - patches VMware
-lnx-uninstall.sh - restores VMware
-lnx-update-tools.cmd - retrieves latest macOS guest tools
+1. lnx-install.sh   - patches VMware
+2. lnx-uninstall.sh - restores VMware
+3. lnx-update-tools.cmd - retrieves latest macOS guest tools
 
+----------
 #### macOS
---------
+----------
 On macOS you will need to be either root or use sudo to run the scripts.
 This is really only needed if you want to use client versions of macOS.
 
 You may need to ensure the macOS scripts have execute permissions
-by running chmod +x against the 2 files.
+by running `chmod +x` against the 2 files.
 
-osx-install.sh   - patches VMware
-osx-uninstall.sh - restores VMware
+1. osx-install.sh   - patches VMware
+2. osx-uninstall.sh - restores VMware
 
+----------
 #### ESXi
--------
+----------
 On ESXi you will need to be either root to run the scripts.
 
 You may need to ensure the ESXi scripts have execute permissions
 by running chmod +x against the 2 files.
 
-esxi-install.sh   - patches VMware
-esxi-uninstall.sh - restores VMware
+1. esxi-install.sh   - patches VMware
+2. esxi-uninstall.sh - restores VMware
 
+----------
 #### Thanks
 ---------
 
@@ -110,7 +114,8 @@ Thanks to Zenith432 for originally building the C++ unlocker and Mac Son of Knif
 (MSoK) for all the testing and support.
 
 Thanks also to Sam B for finding the solution for ESXi 6 and helping DrDonk with
-debugging expertise. Sam also wrote the code for patching ESXi ELF files and
+debugging expertise.  Sam also wrote the code for patching ESXi ELF files and
 modified the unlocker code to run on Python 3 in the ESXi 6.5/6.7 environment.
 
+----------
 (C) COPYRIGHT virtualex, Dan Parsons
