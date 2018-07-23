@@ -58,6 +58,9 @@ if sys.platform == 'win32' \
         or sys.platform == 'cli':
     from _winreg import *
 
+# Fix "Unknown encoding" error when running in Powershell
+# https://stackoverflow.com/a/3259271/3354920
+codecs.register(lambda name: codecs.lookup('utf-8') if name == 'cp65001' else None)
 
 def bytetohex(data):
     if sys.version_info > (3, 0):
