@@ -18,7 +18,7 @@ elif [ "$VER" == "6.5.0" ] || [ "$VER" == "6.7.0" ]; then
     echo Installing local.sh
     chmod +x local.sh
     cp local.sh /etc/rc.local.d/local.sh
-    python esxi-config.py on
+    python esxiconfig.py on
     backup.sh 0
     echo "Success - please now restart the server!"
 else
