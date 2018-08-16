@@ -1,8 +1,9 @@
 @echo off
 setlocal ENABLEEXTENSIONS
-echo VMware Unlocker 2.1.1
+echo VMware Unlocker 2.1.2
 echo ========================
 echo (c) Dave Parsons 2011-17
+echo Contributor: virtualex  2018
 
 net session >NUL 2>&1
 if %errorlevel% neq 0 (
